@@ -1,32 +1,401 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Best Wishes</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Special Letter 💌</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.x/dist/index.umd.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffd9e8,#f5eaff);
+    font-family:'Poppins',sans-serif;
+    transition:background 1.5s ease;
+}
+
+/* Fireworks */
+
+#fireworks-container{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:1;
+}
+
+.container{
+    position:relative;
+    z-index:2;
+    text-align:center;
+}
+
+/* Envelope */
+
+.envelope{
+    position:relative;
+    width:360px;
+    height:240px;
+    margin:auto;
+}
+
+/* Back */
+
+.back{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:#f7b0c7;
+    border-radius:10px;
+}
+
+/* Letter */
+
+.letter{
+    position:absolute;
+    width:320px;
+    height:190px;
+
+    left:20px;
+    top:35px;
+
+    background:#fffdf7;
+
+    border-radius:12px;
+
+    padding:20px;
+
+    box-shadow:
+    0 10px 20px rgba(0,0,0,.15);
+
+    transition:1.6s ease;
+
+    z-index:2;
+
+    overflow:hidden;
+}
+
+/* Letter Content */
+
+.message{
+    opacity:0;
+    transition:1s;
+}
+
+.letter h1{
+    font-family:'Dancing Script',cursive;
+    font-size:42px;
+    color:#d6336c;
+    margin-bottom:10px;
+}
+
+.letter p{
+    line-height:1.8;
+    margin-bottom:10px;
+    color:#444;
+}
+
+/* Envelope Flap */
+
+.flap{
+    position:absolute;
+    top:0;
+    left:0;
+
+    width:0;
+    height:0;
+
+    border-left:180px solid transparent;
+    border-right:180px solid transparent;
+    border-top:130px solid #ff85ae;
+
+    transform-origin:top;
+    transition:1s ease;
+
+    z-index:6;
+}
+
+/* Front */
+
+.front{
+    position:absolute;
+    bottom:0;
+
+    width:0;
+    height:0;
+
+    border-left:180px solid #f39ab9;
+    border-right:180px solid #f39ab9;
+
+    border-top:120px solid transparent;
+    border-bottom:120px solid #f39ab9;
+
+    z-index:5;
+}
+
+/* Wax Seal */
+
+.seal{
+    position:absolute;
+
+    left:50%;
+    top:58%;
+
+    transform:translate(-50%,-50%);
+
+    width:75px;
+    height:75px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(
+        circle at 30% 30%,
+        #d94b5a,
+        #9e1628
+    );
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:#ffd9df;
+
+    font-size:30px;
+
+    cursor:pointer;
+
+    z-index:10;
+
+    box-shadow:
+    inset -5px -5px 10px rgba(0,0,0,.25),
+    inset 5px 5px 10px rgba(255,255,255,.15),
+    0 5px 15px rgba(0,0,0,.3);
+
+    transition:.8s;
+}
+
+.seal:hover{
+    transform:translate(-50%,-50%) scale(1.08);
+}
+
+.broken{
+    opacity:0;
+    transform:
+    translate(-50%,-50%)
+    scale(0)
+    rotate(180deg);
+}
+
+/* Open Envelope */
+
+.open .flap{
+    transform:rotateX(180deg);
+}
+
+.open .letter{
+    transform:translateY(-190px);
+}
+
+/* Expanded Letter */
+
+.show-message{
+    width:560px;
+    min-height:360px;
+    height:auto;
+
+    left:-100px;
+    top:-250px;
+
+    padding:35px;
+}
+
+.show-message .message{
+    opacity:1;
+}
+
+/* Fireworks Button */
+
+#celebrateBtn{
+    margin-top:15px;
+
+    border:none;
+
+    padding:12px 24px;
+
+    border-radius:10px;
+
+    background:#ff5f94;
+
+    color:white;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    display:none;
+}
+
+#celebrateBtn:hover{
+    transform:scale(1.05);
+}
+
+</style>
 </head>
+
 <body>
 
-<div id="envelope-section">
-    <div class="envelope">✉️</div>
-    <button onclick="openLetter()">Open</button>
-</div>
+<div id="fireworks-container"></div>
 
-<div id="letter-section" class="hidden">
-    <div class="letter">
-        <h2>For You 💌</h2>
-        <p>
-            Wishing you happiness, success, and lots of wonderful memories.
-            May all your hard work pay off!
-        </p>
+<div class="container">
+
+<div class="envelope" id="envelope">
+
+    <div class="back"></div>
+
+    <div class="letter" id="letter">
+
+        <div class="message">
+
+            <h1>For You 💌</h1>
+
+            <p>
+                Congratulations on reaching this important milestone.
+            </p>
+
+            <p>
+                May your hard work, determination,
+                and courage guide you toward a bright future.
+            </p>
+
+            <p>
+                No matter what happens,
+                be proud of how far you've come.
+            </p>
+
+            <p>
+                Wishing you happiness,
+                success, and wonderful opportunities ahead.
+            </p>
+
+            <p>
+                加油！✨
+            </p>
+
+            <button id="celebrateBtn"
+            onclick="celebrate()">
+                🎆 Start Fireworks
+            </button>
+
+        </div>
+
     </div>
 
-    <button onclick="startFireworks()">
-        🎆 Fireworks
-    </button>
+    <div class="seal"
+    id="seal"
+    onclick="openEnvelope()">
+        ❤
+    </div>
+
+    <div class="flap"></div>
+
+    <div class="front"></div>
+
 </div>
 
-<canvas id="fireworks"></canvas>
+</div>
 
-<script src="script.js"></script>
+<script>
+
+function openEnvelope(){
+
+    const seal =
+    document.getElementById("seal");
+
+    const envelope =
+    document.getElementById("envelope");
+
+    const letter =
+    document.getElementById("letter");
+
+    seal.classList.add("broken");
+
+    setTimeout(()=>{
+
+        envelope.classList.add("open");
+
+        setTimeout(()=>{
+
+            letter.classList.add("show-message");
+
+            document
+            .getElementById("celebrateBtn")
+            .style.display="inline-block";
+
+        },1200);
+
+    },500);
+}
+
+/* Fireworks */
+
+const container =
+document.getElementById(
+"fireworks-container"
+);
+
+const fireworks =
+new Fireworks.default(
+container,
+{
+    rocketsPoint:50,
+    speed:2,
+    acceleration:1.05,
+    friction:0.98,
+    gravity:1.5,
+    particles:120,
+
+    hue:{
+        min:0,
+        max:360
+    },
+
+    delay:{
+        min:15,
+        max:30
+    }
+}
+);
+
+function celebrate(){
+
+    document.body.style.background=
+    "linear-gradient(180deg,#030712,#0f172a,#000000)";
+
+    fireworks.start();
+
+    setTimeout(()=>{
+        fireworks.stop();
+    },12000);
+}
+
+</script>
+
 </body>
 </html>
